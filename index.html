@@ -60,6 +60,13 @@
   }
   .mono{font-family:'Space Mono', monospace;}
   .wrap{max-width:720px;margin:0 auto;}
+  /* ---------- หน้าจอกว้าง (เปิดในคอม) — ขยายพื้นที่ใช้งาน ไม่ให้กองแคบๆ ตรงกลาง ---------- */
+  @media (min-width:900px){
+    .wrap{max-width:960px;}
+  }
+  @media (min-width:1200px){
+    .wrap{max-width:1100px;}
+  }
 
   /* ---------- header ---------- */
   header.card{
