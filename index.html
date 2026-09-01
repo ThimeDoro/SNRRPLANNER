@@ -929,7 +929,10 @@
   // "person slug" จาก Hub (pmint/dorryy/krom) — ใช้ทั้งเลือกพาเลตสี และแยกที่เก็บข้อมูลในเครื่อง (STORAGE_KEY)
   // เพื่อไม่ให้รหัส PIN และรายการงานของแต่ละคนปนกัน เวลาเปิด Planner จากเครื่อง/เบราว์เซอร์เดียวกัน
   var SYNC_PERSON = (qs.get('person') || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
-  STORAGE_KEY = SYNC_PERSON ? ('life-planner-data:' + SYNC_PERSON) : 'life-planner-data';
+  // ใช้ prefix "snrr-planner-data" (ไม่ใช่ "life-planner-data" แบบเดิม) เพราะ Planner ของบริษัท (thimedoro.github.io/SNRRPLANNER/)
+  // กับ Planner ส่วนตัว (thimedoro.github.io/planner/) อยู่คนละ repo แต่เป็นเว็บ "origin" เดียวกัน (thimedoro.github.io)
+  // เบราว์เซอร์เก็บ localStorage แยกตาม origin เท่านั้น ไม่แยกตาม path — ถ้าใช้ชื่อ key เดิมจะไปอ่าน/เขียนที่เก็บข้อมูลก้อนเดียวกับ Planner ส่วนตัว
+  STORAGE_KEY = SYNC_PERSON ? ('snrr-planner-data:' + SYNC_PERSON) : 'snrr-planner-data';
   var syncSaveTimer = null;
   var syncStatusEl = null;
 
