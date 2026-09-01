@@ -771,7 +771,7 @@
 (function(){
   "use strict";
 
-  var STORAGE_KEY = "life-planner-data";
+  var STORAGE_KEY; // ตั้งค่าจริงด้านล่างหลังอ่าน ?person= — แยกที่เก็บข้อมูลในเครื่องของแต่ละคน กัน "ปนกัน" เวลาใช้เครื่อง/เบราว์เซอร์เดียวกัน
 
   var I18N = {
     th:{
@@ -926,14 +926,17 @@
   var qs = new URLSearchParams(window.location.search);
   var SYNC_TOKEN = qs.get('token') || '';
   var SYNC_API = qs.get('api') || '';
+  // "person slug" จาก Hub (pmint/dorryy/krom) — ใช้ทั้งเลือกพาเลตสี และแยกที่เก็บข้อมูลในเครื่อง (STORAGE_KEY)
+  // เพื่อไม่ให้รหัส PIN และรายการงานของแต่ละคนปนกัน เวลาเปิด Planner จากเครื่อง/เบราว์เซอร์เดียวกัน
+  var SYNC_PERSON = (qs.get('person') || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+  STORAGE_KEY = SYNC_PERSON ? ('life-planner-data:' + SYNC_PERSON) : 'life-planner-data';
   var syncSaveTimer = null;
   var syncStatusEl = null;
 
   // พาเลตประจำตัว — เอามาจาก ?person= ที่ Hub แนบมาให้ตอนเปิดจากเมนู SENIOR (pmint/dorryy/krom)
   (function applyPersonTheme(){
-    var person = (qs.get('person') || '').trim().toLowerCase();
-    if (['pmint', 'dorryy', 'krom'].indexOf(person) !== -1) {
-      document.body.classList.add('theme-' + person);
+    if (['pmint', 'dorryy', 'krom'].indexOf(SYNC_PERSON) !== -1) {
+      document.body.classList.add('theme-' + SYNC_PERSON);
     }
   })();
 
